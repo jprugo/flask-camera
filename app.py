@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
-import cv2
+from cv2 import cv2
 
 app = Flask(__name__)
-video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 
 @app.route('/takepicture', methods = ['POST'])
