@@ -1,19 +1,21 @@
-from flask import Flask, request, jsonify
+from json import dumps
+from flask import Flask, request, Response
 from cv2 import cv2
 
 app = Flask(__name__)
 
 video = cv2.VideoCapture(0)
 
-@app.route('/takepicture', methods = ['POST'])
+@app.route('/takepicture', methods = ['POST'], )
 def takeimage():
     id = request.form['id']
     path = f'{id}.jpg'
     _, frame = video.read()
     cv2.imwrite(path, frame)
-    return jsonify({
+    return Response(dumps({
         "imagePath": path,
-    }), 201
+    }), mimetype='application/json;  charset=utf-8', status=201)
+    
 
 if __name__ == '__main__':
     app.run()
