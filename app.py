@@ -11,14 +11,21 @@ basePath = str(Path(__file__).parent.resolve()).replace('\\' , '/')
 
 @app.route('/takepicture', methods = ['POST'], )
 def takeimage():
-    id = request.form['id']
-    path = f'{id}.jpg'
-    _, frame = video.read()
-    cv2.imwrite(path, frame)
+    try:
+
+        id = request.form['id']
+        path = f'{id}.jpg'
+        _, frame = video.read()
+        cv2.imwrite(path, frame)
+        
+        return Response(dumps({
+            "imagePath": f"{basePath}/{path}",
+        }), mimetype='application/json;  charset=utf-8', status=201)
+    except:
+        return Response(dumps({
+            "imagePath": "",
+        }), mimetype='application/json;  charset=utf-8', status=201)
     
-    return Response(dumps({
-        "imagePath": f"{basePath}/{path}",
-    }), mimetype='application/json;  charset=utf-8', status=201)
 
 
 if __name__ == '__main__':
